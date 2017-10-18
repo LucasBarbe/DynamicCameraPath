@@ -38,18 +38,28 @@ public class Rail : MonoBehaviour {
 
         if (closestNodeIndex == 0)
         {
-
+            return ProjectOnSegment(m_transforms[0].position, m_transforms[1].position, pos);
         }
         else if (closestNodeIndex == m_transforms.Count-1)
         {
-
+            return ProjectOnSegment(m_transforms[m_transforms.Count - 1].position, m_transforms[1].position, pos);
         }
         else
         {
+            Vector3 leftSeg = ProjectOnSegment(m_transforms[closestNodeIndex + 1].position, m_transforms[closestNodeIndex].position, pos);
+            Vector3 rightSeg = ProjectOnSegment(m_transforms[closestNodeIndex - 1].position, m_transforms[closestNodeIndex].position, pos);
+            Debug.DrawLine(pos, leftSeg, Color.red);
+            Debug.DrawLine(pos, rightSeg, Color.yellow);
 
+            if(Vector3.Distance(pos,leftSeg) <= Vector3.Magnitude(pos - rightSeg))
+            {
+                return leftSeg;
+            }
+            else
+            {
+                return rightSeg;
+            }
         }
-
-        return Vector3.zero;
     }
 
     private Vector3 ProjectOnSegment(Vector3 v1, Vector3 v2, Vector3 pos)
