@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace Luc4rts.BezierCurve
 {
-    public class BezierCurveNode : MonoBehaviour
+    [System.Serializable]
+    public class BezierNode
     {
-
+        [System.Serializable]
         public enum BezierControlPointMode
         {
             Free,
@@ -14,9 +15,11 @@ namespace Luc4rts.BezierCurve
             Mirrored
         }
 
+        [SerializeField]
         private Vector3 m_position;
+        [SerializeField]
         private ControlPoint[] m_controlPoints = { new ControlPoint(), new ControlPoint() };
-
+        [SerializeField]
         private BezierControlPointMode m_bezierControlPointMode;
 
         //public ControlPoint[] ControlPoints
@@ -39,11 +42,12 @@ namespace Luc4rts.BezierCurve
                 return m_controlPoints[0];
             }
 
-            set
-            {
-                m_controlPoints[0] = value;
-                ApplyContolMode(0, 1);
-            }
+            //set
+            //{
+            //    //Debug.Log("applyPrev");
+            //    //m_controlPoints[0] = value;
+            //    //ApplyContolMode(0, 1);
+            //}
         }
 
         public ControlPoint NextControlPoint
@@ -53,14 +57,15 @@ namespace Luc4rts.BezierCurve
                 return m_controlPoints[1];
             }
 
-            set
-            {
-                m_controlPoints[1] = value;
-                ApplyContolMode(1, 0);
-            }
+            //set
+            //{
+            //    //Debug.Log("applyNext");
+            //    //m_controlPoints[1] = value;
+            //    //ApplyContolMode(1, 0);
+            //}
         }
 
-        public BezierControlPointMode BezierControlPointMode1
+        public BezierControlPointMode ControlPointMode
         {
             get
             {
@@ -74,8 +79,22 @@ namespace Luc4rts.BezierCurve
             }
         }
 
-        void ApplyContolMode(int controlerIndex, int controledIndex)
+        public Vector3 Position
         {
+            get
+            {
+                return m_position;
+            }
+
+            set
+            {
+                m_position = value;
+            }
+        }
+
+        public void ApplyContolMode(int controlerIndex, int controledIndex)
+        {
+            Debug.Log("applymod");
             switch (m_bezierControlPointMode)
             {
                 case BezierControlPointMode.Free:
@@ -115,17 +134,6 @@ namespace Luc4rts.BezierCurve
             }
         }
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
 

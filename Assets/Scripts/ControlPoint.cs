@@ -4,9 +4,12 @@ using UnityEngine;
 
 namespace Luc4rts.BezierCurve
 {
+    [System.Serializable]
     public class ControlPoint
     {
+        [SerializeField]
         private Vector3 m_position;
+        [SerializeField]
         private bool m_isActive = true;
 
         public Vector3 Position
