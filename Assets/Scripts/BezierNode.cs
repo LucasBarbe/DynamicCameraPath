@@ -42,12 +42,12 @@ namespace Luc4rts.BezierCurve
                 return m_controlPoints[0];
             }
 
-            //set
-            //{
-            //    //Debug.Log("applyPrev");
-            //    //m_controlPoints[0] = value;
-            //    //ApplyContolMode(0, 1);
-            //}
+            set
+            {
+                Debug.Log("applyPrev");
+                m_controlPoints[0] = value;
+                ApplyContolMode(0, 1);
+            }
         }
 
         public ControlPoint NextControlPoint
@@ -57,12 +57,12 @@ namespace Luc4rts.BezierCurve
                 return m_controlPoints[1];
             }
 
-            //set
-            //{
-            //    //Debug.Log("applyNext");
-            //    //m_controlPoints[1] = value;
-            //    //ApplyContolMode(1, 0);
-            //}
+            set
+            {
+                Debug.Log("applyNext");
+                m_controlPoints[1] = value;
+                ApplyContolMode(1, 0);
+            }
         }
 
         public BezierControlPointMode ControlPointMode

@@ -451,16 +451,16 @@ MonoBehaviour:
     m_controlPoints:
     - m_position: {x: 0, y: 0, z: 0}
       m_isActive: 1
-    - m_position: {x: 1.0764728, y: 0, z: -0.04917574}
+    - m_position: {x: 0.8870405, y: 0, z: -1.2009236}
       m_isActive: 1
     m_bezierControlPointMode: 0
   - m_position: {x: 0.22359765, y: 0, z: 1.4937996}
     m_controlPoints:
-    - m_position: {x: 0.86597645, y: 0, z: 1.2555404}
+    - m_position: {x: 0.24976218, y: -0.01, z: -1.544426}
       m_isActive: 1
-    - m_position: {x: -0.8904263, y: 0.01, z: 1.6329592}
+    - m_position: {x: -0.24976218, y: 0.01, z: 1.544426}
       m_isActive: 1
-    m_bezierControlPointMode: 1
+    m_bezierControlPointMode: 2
   - m_position: {x: 0.6838021, y: -0.07, z: 1.8900216}
     m_controlPoints:
     - m_position: {x: 0.16611001, y: 0, z: 2.5172188}

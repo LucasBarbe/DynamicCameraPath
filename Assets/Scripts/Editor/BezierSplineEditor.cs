@@ -14,6 +14,8 @@ namespace Luc4rts.BezierCurve
         Vector3 m_previousPosition;
         Vector3 m_currentPosition;
 
+        ControlPoint m_tpsControlPoint;
+
         
 
         private void OnSceneGUI()
@@ -44,7 +46,11 @@ namespace Luc4rts.BezierCurve
                 m_previousControl = Handles.DoPositionHandle(m_previousControl, handleRotation);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    bezierSpline.BezierNodes[i - 1].NextControlPoint.Position = bezierSpline.transform.InverseTransformPoint(m_previousControl);
+                    m_tpsControlPoint = bezierSpline.BezierNodes[i - 1].NextControlPoint;
+
+
+                    m_tpsControlPoint.Position = bezierSpline.transform.InverseTransformPoint(m_previousControl);
+                    bezierSpline.BezierNodes[i - 1].NextControlPoint = m_tpsControlPoint;
                 }
 
                 EditorGUI.BeginChangeCheck();
@@ -58,7 +64,10 @@ namespace Luc4rts.BezierCurve
                 m_currentControl = Handles.DoPositionHandle(m_currentControl, handleRotation);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    bezierSpline.BezierNodes[i].PreviousControlPoint.Position = bezierSpline.transform.InverseTransformPoint(m_currentControl);
+                    m_tpsControlPoint = bezierSpline.BezierNodes[i].PreviousControlPoint;
+
+                    m_tpsControlPoint.Position = bezierSpline.transform.InverseTransformPoint(m_currentControl);
+                    bezierSpline.BezierNodes[i].PreviousControlPoint = m_tpsControlPoint;
                 }
 
 
