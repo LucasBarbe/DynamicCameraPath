@@ -35,35 +35,33 @@ namespace Luc4rts.BezierCurve
         //    }
         //}
 
-        public ControlPoint PreviousControlPoint
-        {
-            get
-            {
-                return m_controlPoints[0];
-            }
+        //public ControlPoint PreviousControlPoint
+        //{
+        //    get
+        //    {
+        //        return m_controlPoints[0];
+        //    }
 
-            set
-            {
-                Debug.Log("applyPrev");
-                m_controlPoints[0] = value;
-                ApplyContolMode(0, 1);
-            }
-        }
+        //    set
+        //    {
+        //        m_controlPoints[0] = value;
+        //        ApplyContolMode(0, 1);
+        //    }
+        //}
 
-        public ControlPoint NextControlPoint
-        {
-            get
-            {
-                return m_controlPoints[1];
-            }
+        //public ControlPoint NextControlPoint
+        //{
+        //    get
+        //    {
+        //        return m_controlPoints[1];
+        //    }
 
-            set
-            {
-                Debug.Log("applyNext");
-                m_controlPoints[1] = value;
-                ApplyContolMode(1, 0);
-            }
-        }
+        //    set
+        //    {
+        //        m_controlPoints[1] = value;
+        //        ApplyContolMode(1, 0);
+        //    }
+        //}
 
         public BezierControlPointMode ControlPointMode
         {
@@ -92,18 +90,54 @@ namespace Luc4rts.BezierCurve
             }
         }
 
-        public void ApplyContolMode(int controlerIndex, int controledIndex)
+        public void SetControlPointPosition(int id, Vector3 position)
         {
-            Debug.Log("applymod");
+            if(id < 0)
+            {
+                id = 0;
+            }
+            else if(id > m_controlPoints.Length - 1)
+            {
+                id = m_controlPoints.Length - 1;
+            }
+
+            m_controlPoints[id].Position = position - m_position;
+            ApplyContolMode(id, 1 - id);
+        }
+
+        public Vector3 GetControlPointPosition(int id)
+        {
+            if (id < 0)
+            {
+                id = 0;
+            }
+            else if (id > m_controlPoints.Length - 1)
+            {
+                id = m_controlPoints.Length - 1;
+            }
+
+            if (m_controlPoints[id].IsActive)
+            {
+                return m_position + m_controlPoints[id].Position;
+            }
+            else
+            {
+                return m_position;
+            }
+            
+        }
+
+        void ApplyContolMode(int controlerIndex, int controledIndex)
+        {
             switch (m_bezierControlPointMode)
             {
                 case BezierControlPointMode.Free:
                     break;
                 case BezierControlPointMode.Aligned:
-                    AligneControlsPoint(controlerIndex, 0);
+                    AligneControlsPoint(controlerIndex, controledIndex);
                     break;
                 case BezierControlPointMode.Mirrored:
-                    MirrorControlsPoint(1, 0);
+                    MirrorControlsPoint(controlerIndex, controledIndex);
                     break;
                 default:
                     break;
