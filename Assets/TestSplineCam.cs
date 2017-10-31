@@ -9,6 +9,8 @@ public class TestSplineCam : MonoBehaviour {
     private Transform m_character;
     [SerializeField]
     private BezierSpline m_spline;
+    [SerializeField]
+    private BezierSpline m_spline2;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +19,8 @@ public class TestSplineCam : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,m_spline2.GetInterpolatedPointPosition(m_spline.GetClosestInterpolatedPointsIndex(m_character.position)[0], m_spline.GetClosestInterpolatedPointsIndex(m_character.position)[1]),10 * Time.deltaTime);
+        Camera.main.transform.LookAt(m_character.position);
 	}
 
     private void OnDrawGizmos()
