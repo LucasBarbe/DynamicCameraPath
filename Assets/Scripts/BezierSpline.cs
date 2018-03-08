@@ -103,11 +103,11 @@ namespace Luc4rts.BezierCurve
         {
             if(controlPointIndex == -1)
             {
-                m_bezierNodes[nodeIndex].Position = position;
+                m_bezierNodes[nodeIndex].Position = position-transform.position;
             }
             else
             {
-                m_bezierNodes[nodeIndex].SetControlPointPosition(controlPointIndex, position);
+                m_bezierNodes[nodeIndex].SetControlPointPosition(controlPointIndex, position-transform.position);
             }
 
             CalculateIntrepolatedPoints();

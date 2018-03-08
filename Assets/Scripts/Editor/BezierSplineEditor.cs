@@ -40,20 +40,45 @@ namespace Luc4rts.BezierCurve
             m_handleRotation = Tools.pivotRotation == PivotRotation.Local ?
             m_.transform.rotation : Quaternion.identity;
 
-            
+            for (int i = 1; i < m_.BezierNodes.Length; i++)
+            {
+                Handles.color = Color.grey;
+                DrawBezier(i - 1, i, Color.white);
+            }
+
+                float size;
+            Handles.color = new Color(1,0,0,0.5f);
+            for (int i = 0; i < m_.InterpolatedPoints.GetLength(0); i++)
+            {
+                for (int j = 1; j < m_.InterpolatedPoints.GetLength(1); j++)
+                {
+                    //size = HandleUtility.GetHandleSize(m_.InterpolatedPoints[i, j]);
+                    size = HandleUtility.GetHandleSize(m_.GetInterpolatedPointPosition(i, j));
+                    Handles.DotHandleCap(0, m_.GetInterpolatedPointPosition(i, j), m_handleRotation, size * 0.025f, EventType.Repaint);
+                }
+            }
+            Handles.color = Color.white;
+            DrawPositionHandle(m_.BezierNodes.Length-1);
+
+
             for (int i = 1; i < m_.BezierNodes.Length; i++)
             {
                 Handles.color = Color.grey;
                 DrawControlTangent(i - 1, 1);
                 DrawControlTangent(i, 0);
 
-                DrawBezier(i - 1, i, Color.white);
+                //DrawBezier(i - 1, i, Color.white);
+
+
+                Handles.color = Color.green;
+                DrawPositionHandle(i - 1, 1);
+                DrawPositionHandle(i, 0);
 
                 Handles.color = Color.white;
                 DrawPositionHandle(i - 1);
-                DrawPositionHandle(i -1, 1);
+
                 //DrawPositionHandle(i);
-                DrawPositionHandle(i, 0);
+
                 //float size = HandleUtility.GetHandleSize(m_vector3);
                 /*for (int j = 1; j < m_.Steps; j++)
                 {
@@ -63,19 +88,6 @@ namespace Luc4rts.BezierCurve
                 }*/
 
             }
-
-            float size;
-            Handles.color = Color.red;
-            for (int i = 0; i < m_.InterpolatedPoints.GetLength(0); i++)
-            {
-                for (int j = 1; j < m_.InterpolatedPoints.GetLength(1); j++)
-                {
-                    size = HandleUtility.GetHandleSize(m_.InterpolatedPoints[i, j]);
-                    Handles.DotHandleCap(0, m_.GetInterpolatedPointPosition(i, j), m_handleRotation, size * 0.025f, EventType.Repaint);
-                }
-            }
-            Handles.color = Color.white;
-            DrawPositionHandle(m_.BezierNodes.Length-1);
         }
 
         #region DrawTools
@@ -120,15 +132,18 @@ namespace Luc4rts.BezierCurve
             }
             else
             {
+                if (m_.BezierNodes[nodeIndex].GetControlPointPosition(controlPointIndex) - m_.transform.position == Vector3.zero)
+                    return;
                 m_vector3 = m_.GetNodeControlPointPosition(nodeIndex, controlPointIndex);
             }
             float size = HandleUtility.GetHandleSize(m_vector3);
+            
             if (Handles.Button(m_vector3, m_handleRotation, size * handleSize, size * pickSize, Handles.DotHandleCap))
             {
                 m_selectedNode = nodeIndex;
                 m_selectedControlPoint = controlPointIndex;
             }
-
+            
             if (m_selectedNode == nodeIndex && m_selectedControlPoint == controlPointIndex)
             {
                 EditorGUI.BeginChangeCheck();
