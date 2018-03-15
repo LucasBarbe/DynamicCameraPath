@@ -29,7 +29,7 @@ public class TestSplineCam : MonoBehaviour {
             return;
         //int[] a = m_spline.GetClosestInterpolatedPointsIndex(m_character.position, m_spline.GetClosestNodeIndex(m_character.position));
         int[] a = m_spline.GetClosestInterpolatedPointsIndex(m_character.position);
-        Debug.Log(m_spline.GetClosestNodeIndex(m_character.position) + " || " + a[0] + " | " + a[1]);
+        //Debug.Log(m_spline.GetClosestNodeIndex(m_character.position) + " || " + a[0] + " | " + a[1]);
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(

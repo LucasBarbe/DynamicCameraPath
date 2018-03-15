@@ -107,20 +107,28 @@ namespace Luc4rts.BezierCurve
                 m_.GetNodePosition(nodeBIndex),
                 m_.GetNodeControlPointPosition(nodeAIndex,1), 
                 m_.GetNodeControlPointPosition(nodeBIndex, 0), 
-                color, null, 2f);
+                color, null, 5f);
         }
 
         void DrawControlTangent(BezierNode node, int controlPointIndex)
         {
-            Handles.DrawLine(node.Position, node.GetControlPointPosition(controlPointIndex));
+            if (node.Position != node.GetControlPointPosition(controlPointIndex))//not check if selected point
+            {
+                //Handles.DrawLine(node.Position, node.GetControlPointPosition(controlPointIndex));
+                Handles.DrawBezier(node.Position, node.GetControlPointPosition(controlPointIndex), node.Position, node.GetControlPointPosition(controlPointIndex), Color.green, null, 4f);
+            }
         }
 
         void DrawControlTangent(int nodeIndex, int controlPointIndex)
         {
-            Handles.DrawLine(m_.GetNodePosition(nodeIndex), m_.GetNodeControlPointPosition(nodeIndex, controlPointIndex));
+            if (m_.GetNodePosition(nodeIndex) != m_.GetNodeControlPointPosition(nodeIndex, controlPointIndex) && nodeIndex == m_selectedNode)
+            {
+                //Handles.DrawLine(m_.GetNodePosition(nodeIndex), m_.GetNodeControlPointPosition(nodeIndex, controlPointIndex));
+                Handles.DrawBezier(m_.GetNodePosition(nodeIndex), m_.GetNodeControlPointPosition(nodeIndex, controlPointIndex), (m_.GetNodePosition(nodeIndex) + m_.GetNodeControlPointPosition(nodeIndex, controlPointIndex)) / 2, (m_.GetNodePosition(nodeIndex) + m_.GetNodeControlPointPosition(nodeIndex, controlPointIndex)) / 2, Color.green, null, 4f);
+            }
         }
 
-        private const float handleSize = 0.04f;
+        private const float handleSize = 0.06f;
         private const float pickSize = 0.06f;
 
         void DrawPositionHandle(int nodeIndex, int controlPointIndex = -1)
@@ -137,7 +145,10 @@ namespace Luc4rts.BezierCurve
                 m_vector3 = m_.GetNodeControlPointPosition(nodeIndex, controlPointIndex);
             }
             float size = HandleUtility.GetHandleSize(m_vector3);
-            
+
+            if (m_selectedNode != nodeIndex && controlPointIndex >= 0)
+                return;
+
             if (Handles.Button(m_vector3, m_handleRotation, size * handleSize, size * pickSize, Handles.DotHandleCap))
             {
                 m_selectedNode = nodeIndex;
